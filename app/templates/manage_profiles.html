@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style="padding: 50px 0px">
+    <h2 class="text-center" style="padding: 20px 0px">Manage Profiles</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Location</th>
+                <th>Category</th>
+                <th>Availability Type</th>
+                <th>Approval</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for profile in profiles %}
+            <tr>
+                <td>{{ profile.title }}</td>
+                <td>{{ profile.location }}</td>
+                <td>{{ profile.category }}</td>
+                <td>{{ profile.availability_type }}</td>
+                <td>
+                    <form method="post" action="{% url 'approve_profile' profile.pk %}">
+                        {% csrf_token %}
+                        <input type="checkbox" name="approved" {% if profile.is_approved %}checked{% endif %}>
+                        <button class="btn-info" type="submit">Approve</button>
+                    </form>
+                </td>
+                <td>
+                    <a style="color:green" href="{% url 'update_profile' profile.pk %}" >Update</a> ||
+                    <a style="color:red" href="{% url 'delete_profile' profile.pk %}" >Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

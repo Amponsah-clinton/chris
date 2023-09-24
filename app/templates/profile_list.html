@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container text" style="padding-top: 25px;">
+    <div class="row">
+        <div class="col-md-3">
+            <form method="GET" action="{% url 'profile_list' %}">
+                <div class="input-group mb-3">
+                    <input class="form-control" type="text" placeholder="Search by Location" name="location" value="{% if location_query %}{{ location_query }}{% endif %}">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group mb-3">
+                    <input class="form-control" type="text" placeholder="Search by Title" name="title" value="{% if title_query %}{{ title_query }}{% endif %}">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group mb-3">
+                    <select class="form-control" name="region">
+                        <option value="">All Regions</option>
+                        {% for region in regions %}
+                            <option value="{{ region.0 }}" {% if region.0 == region_query %}selected{% endif %}>{{ region.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button class="btns " type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .btns{
+        background-color: rgb(230, 86, 86);
+        padding: 6px 15px;
+        color: white;
+        border: none;
+        font-weight: 700;
+    }
+</style>
+
+    <div class="container" style="padding: 50px 0px">
+        <div class="row ">
+               {% if profiles %}
+    {% for profile in profiles %}
+           <div class="col-xl-6">
+ <a style="color:red" href="{% url 'job_details' profile.pk %}">   <div class="featured-profiles-wrapper">
+        <div class="single-job-items mb-30" style="background-color: white">
+            <div class="job-items">
+                    <div class="company-img">
+                        {% if profile.sex == 'Male' %}
+                       <img style="height: 45px; width: 41px" src="{% static 'img/man.png' %}">
+                        {% elif profile.sex == 'Female' %}
+                        <img style="height: 67 px; width: 41px" src="{% static 'img/woman.jpg' %}">
+
+                        {% else %}
+                        <!-- Handle the 'Other' or other cases here -->
+                        {% endif %}
+                        <img src="{{ profile.image.url }}" alt="">
+                    </div>
+                <div class="job-tittle">
+                    <h4>{{ profile.title }}</h4>
+                    <ul>
+                        <li><i class="fa fa-clock"></i>{{ profile.availability_type }}</li>
+                        <li><i class="fa fa-map-marker"></i>{{ profile.location }}</li>
+                        <li><i class="fa fa-money"></i>{{ profile.region }}</li>
+                        <li><i class="fa fa-book"></i>{{ profile.category }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+                      </a> 
+
+</div>
+    {% endfor %}
+{% else %}
+            <div class="col-md-12" style="padding: 50px 0px 80px 0px">
+                <h3 class="text-center;text-align:center ">No results found for '{{ request.GET.q }}'.</h3>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+
+
+
+
+
+
+    {% endblock %}

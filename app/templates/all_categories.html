@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+<style>
+    #background-div {
+        background-image: url('/static/img/about.jpg');
+    }
+    </style>
+            
+        <div class="slider-area ">
+            <div class="single-slider section-overly slider-height2 d-flex align-items-center" id="background-div" data-background="static/img/hero/about.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap text-center">
+                                <h2>All Categories</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+<div class="container" style="padding: 50px 0px 90px 0px">
+    <div class="row d-flex justify-content-center">
+        {% for category_info in categories_with_count %}
+        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+            <a style="color:red" href="{% url 'posts_by_category' category_info.category.pk %}">
+                <div class="single-services text-center mb-30"  style="background-color:white; padding: 20px 0px">
+                    <div class="services-ion">
+                        <span class="fa fa-user"></span>
+                    </div>
+                    <div class="services-cap">
+                        <h5>{{ category_info.category.name }}</h5>
+                        <span>({{ category_info.post_count }})</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

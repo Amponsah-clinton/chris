@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h3 style="padding: 30px; text-align: center;">Applicants for {{ post.title }}</h1>
+ <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Resume</th>
+            <th>Telephone</th>
+            <th>Message</th>
+            <th>Date Applied</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for applicant in applicants %}
+        <tr>
+            <td>{{ applicant.name }}</td>
+            <td>{{ applicant.email }}</td>
+            <td>
+                {% if applicant.cv %}
+                <a style="color: red" href="{{ applicant.cv.url }}" target="_blank">Download Resume</a>
+                {% else %}
+                N/A
+                {% endif %}
+            </td>
+            <td>{{ applicant.telephone }}</td>
+            <td>{{ applicant.message|default:"N/A" }}</td>
+            <td>{{ applicant.date_posted }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No applicants yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</div>
+
+<br><br>
+{% endblock %}

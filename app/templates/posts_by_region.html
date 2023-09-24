@@ -1,0 +1,46 @@
+<!-- posts_by_region.html -->
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="container" style="padding-top:50px">
+    <h3 style="text-align:center; padding-bottom: 50px">All profiles in <span style="text-transform:uppercase;font-weight: 700">{{ region_name }}</span></h3>
+    <div class="row">
+        {% if posts %}
+            {% for profile in posts %}
+            <div class="col-xl-6">
+                <a style="color:red" href="{% url 'job_details' profile.pk %}">   <div class="featured-profiles-wrapper">
+                       <div class="single-job-items mb-30" style="background-color: white">
+                           <div class="job-items">
+                                   <div class="company-img">
+                                       {% if profile.sex == 'Male' %}
+                                      <img style="height: 70px; width: 63px" src="{% static 'img/man.png' %}">
+                                       {% elif profile.sex == 'Female' %}
+                                     <img style="height: 70px; width: 42px" src="{% static 'img/woman.jpg' %}">
+                                       {% else %}
+                                       <!-- Handle the 'Other' or other cases here -->
+                                       {% endif %}
+                                       <img src="{{ profile.image.url }}" alt="">
+                                   </div>
+                               <div class="job-tittle">
+                                   <h4>{{ profile.title }}</h4>
+                                   <ul>
+                                       <li><i class="fa fa-clock"></i>{{ profile.availability_type }}</li>
+                                       <li><i class="fa fa-map-marker"></i>{{ profile.location }}</li>
+                                       <li><i class="fa fa-money"></i>{{ profile.region }}</li>
+                                       <li><i class="fa fa-book"></i>{{ profile.category }}</li>
+                                   </ul>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                                     </a> 
+               
+               </div>
+            {% endfor %}
+        {% else %}
+            <h5 style="text-align:center; padding: 80px 0px">No posts available for this region.</h5>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

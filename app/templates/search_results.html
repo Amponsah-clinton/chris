@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<br><br>
+
+<div class="container">
+    <div class="row">
+         <h1 style="text-align: center; padding-bottom: 30px;">Search Results for <span style="color: crimson;"><i>{{ query }}</i></span></h1>
+
+     {% if search_results %}
+        {% for profile in search_results %}
+        <div class="col-xl-3">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{ profile.company_logo.url }}" alt="{{ profile.title }} Image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ profile.title }}</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fa fa-clock"></i> {{ profile.deadline }}</li>
+                            <li><i class="fa fa-map-marker"></i> {{ profile.location }}</li>
+                            <li><i class="fa fa-book"></i> {{ profile.categories }}</li>
+                            <li><i class="fa fa-user"></i> {{ profile.regions }}</li>
+                        </ul>
+                        <a style="color: green;font-weight:800; margin:0px auto; padding: 20px 0px 0px 60px" href="{% url 'details' profile.pk %}" >View Details</a>
+                         {% if request.user == profile.user %}
+                    <br>    <a style="color:black; padding-left: 44px;" href="{% url 'vacancy_applicants' profile.pk %}" >View Applicants</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+        </div>
+{% endfor %}
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+    </div>
+    
+</div>
+
+
+<br><br>
+
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<style>
+    @media screen and (min-width: 1200px) {
+       
+        #mm {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+    
+      
+    }
+</style>
+
+<div class="container" id="mm" style="padding-bottom: 80px">
+    <h3 style="text-align:center; padding:50px 0px 20px 0px">All Vacancies</h3>
+    <form method="get" class="row">
+        <div class="col-lg-3">
+            <label for="{{ search_form.title.id_for_label }}">Title:</label>
+            {{ search_form.title }}
+        </div>
+        <div class="col-lg-3">
+            <label for="{{ search_form.location.id_for_label }}">Location:</label>
+            {{ search_form.location }}
+        </div>
+        <div class="col-lg-3 dw">
+        <select class="form-control" name="region">
+            <label >Region:</label>
+            <option value="">All Regions</option>
+            {% for region in regions %}
+                <option value="{{ region.0 }}" {% if region.0 == region_query %}selected{% endif %}>{{ region.1 }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+        <div class="col-lg-3" style="padding-top: 26px;">
+            <button  type="submit" class="btns">Search</button>
+        </div>
+    </form>
+    
+    <div class="row">
+        {% for profile in featured_vacancies %}
+        <div class="col-xl-3">
+            <!-- ... existing code ... -->
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+<div class="container" style="padding-bottom: 30px;">
+    <div class="row">
+        {% if featured_vacancies %}
+            {% for profile in featured_vacancies %}
+        <div class="col-xl-3">
+            <a style="color: red" href="{% url 'details' profile.pk %}">
+                <div class="card">
+                    <img style="height: 11rem;" class="card-img-top" src="{{ profile.company_logo.url }}" alt="{{ profile.title }} Image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ profile.title }}</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fa fa-clock"></i> {{ profile.deadline }}</li>
+                            <li><i class="fa fa-map-marker"></i> {{ profile.location }}</li>
+                            <li><i class="fa fa-book"></i> {{ profile.categories }}</li>
+                            <li><i class="fa fa-user"></i> {{ profile.regions }}</li>
+                        </ul>
+                        <a style="color: green;font-weight:800; margin:0px auto; padding: 20px 0px 0px 60px" href="{% url 'details' profile.pk %}" >View Details</a>
+                         {% if request.user == profile.user %}
+                    <br>    <a style="color:black; padding-left: 44px;" href="{% url 'vacancy_applicants' profile.pk %}" >View Applicants</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+        {% else %}
+            <div class="col-12 text-center">
+                <p>No results found.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+
+
+
+<style>
+    @media (min-width: 1279px) and (max-width: 3381px) {
+    .card{
+        margin-top: 8px;
+    }
+    .dw{
+        padding-top: 26px;
+    }
+}
+
+@media (min-width: 11px) and (max-width: 1000px) {
+    .card{
+        margin-top: 12px;
+    }
+    .dw{
+        padding-top: 10px;
+    }
+}
+
+
+
+    .btns{
+        background-color: rgb(230, 86, 86);
+        padding: 6px 15px;
+        color: white;
+        border: none;
+        font-weight: 700;
+    }
+
+
+</style>
+{% endblock %}

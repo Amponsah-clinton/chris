@@ -1,0 +1,37 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+<div class="container" id="mm">
+    <h1 style="text-align: center; padding: 60px 0px 30px 0px">Create Vacancy</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}<br>
+
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>
+<br>
+
+
+<br>
+
+<style>
+    @media screen and (min-width: 1200px) {
+       
+        #mm {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+    }
+</style>
+{% endblock %}
+
+
+
+
+

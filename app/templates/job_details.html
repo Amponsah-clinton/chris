@@ -1,0 +1,429 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+        
+<style>
+    #background-div {
+        background-image: url('/static/img/about.jpg');
+    }
+    </style>
+            
+        <div class="slider-area ">
+            <div class="single-slider section-overly slider-height2 d-flex align-items-center" id="background-div" data-background="static/img/hero/about.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap text-center">
+                                <h2>{{post}} Details</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+  
+
+        <div class="job-post-company pt-120 pb-120">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <!-- Left Content -->
+                    <div class="col-xl-7 col-lg-8">
+                        <!-- job single -->
+                        <div class="single-job-items mb-50">
+                            <div class="job-items">
+                                     <div class="company-img">
+                                    {% if post.sex == 'Male' %}
+                                <img style="height: 70px; width: 69px" src="{% static 'img/man.png' %}">
+                                    {% elif post.sex == 'Female' %}
+                                <img style="height: 70px; width: 62px" src="{% static 'img/woman.jpg' %}">
+                                    {% else %}
+                                    <!-- Handle the 'Other' or other cases here -->
+                                    {% endif %}
+                                    <img src="{{ post.image.url }}" alt="">
+                                </div>
+                                <div class="job-tittle">
+                                    <a href="job_details.html"><h4>{{post.title}}</h4></a>
+                                    <ul>
+                                        <li><i class="fa fa-clock"></i>{{post.availability_type}} </li>
+                                        <li><i class="fa fa-map-marker"></i>{{post.location}}</li>
+                                        <li><i class="fa fa-money"></i>{{post.charges}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                          <!-- job single End -->
+                       
+                        <div class="job-post-details">
+                            <div class="post-details1 mb-50">
+                                <!-- Small Section Tittle -->
+                                <div class="small-section-tittle">
+                                    <h4>Job Description</h4>
+                                </div>
+                                <p>{{post.description}}</p>
+                            </div>
+                            <div class="post-details2  mb-50">
+                                 <!-- Small Section Tittle -->
+                                <div class="small-section-tittle">
+                                    <h4>Required Knowledge, Skills, and Abilities</h4>
+                                </div>
+                               <ul>
+                                   <li>{{post.skills_abilities}}</li>
+                               </ul>
+                            </div>
+                            <div class="post-details2 mb-50">
+                                <img class="img-fluid" src="{{post.sample_works.url}}" alt="Sample Work">
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                    <!-- Right Content -->
+                    <div class="col-xl-4 col-lg-4">
+                        <div class="post-details3  mb-50">
+                            <!-- Small Section Tittle -->
+                           <div class="small-section-tittle">
+                               <h4>Job Overview</h4>
+                           </div>
+                          <ul>
+                              <li>Posted date : <span>{{post.date_posted}}</span></li>
+                              <li>Location : <span>{{post.region}}</span></li>
+                              <li>Age : <span>{{post.age}}</span></li>
+                              <li>Education level : <span>{{post.education_level}}</span></li>
+                              <li>Sex :  <span>{{post.sex}}</span></li>
+                        
+                          </ul>
+                       </div>
+
+                       {% if user.is_authenticated %}
+                        <div class="post-details4  mb-50">
+                            <!-- Small Section Tittle -->
+                            <div class="small-section-tittle">
+                                <h4>Profile Information</h4>
+                            </div>
+                            <ul>
+                                <li>Name: <span>{{ post.name }}</span></li>
+                                <li>Email : <span>{{ post.email }}</span></li>
+                                <li>Phone: <span>{{ post.phone_number }}</span></li>
+                            </ul>
+                        </div>
+                        {% else %}
+                       <h5>Please <a style="color:red; font-weight: 700" href="{% url 'user_login' %}">Login</a> or <a style="color:red; font-weight: 700" href="{% url 'user_signup' %}">Register</a> to view contact information</h5>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- job post company End -->
+
+    </main>
+
+
+
+
+
+<style>
+    @media screen and (min-width: 1200px) {
+       
+        #mm {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+    }
+    .white-bg-textarea {
+    background-color: white;
+}
+</style>
+
+
+<br><br><br>
+
+
+
+
+<div class="container">
+    <div class="row">
+        <!-- Column 1 (2 columns on large screens) -->
+        <div class="col-lg-6" style="background-color: aliceblue;">
+            <div class="comment-form container">
+    <h3>Add a Comment</h4>
+    <form method="post">
+          {% if user.is_authenticated or user.is_superuser  %}
+        {% csrf_token %}
+        {{ comment}}
+            <button type="submit" class="btn btn-primary" name="report_form">Post comment</button>
+    </form>
+{% endif %}
+</div>
+
+        </div>
+
+        <!-- Column 2 (2 columns on large screens) -->
+        <div class="col-lg-6">
+          {% if user.is_authenticated or user.is_superuser  %}
+<div class="container" id="mm">
+<h3 style="text-align:center">Report Profile</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ report_form.as_p }}
+    <button type="submit" class="btn btn-primary" name="report_form">Submit Report</button>
+</form>
+</div>
+{% else %}
+<h5 class="text-center" style="text-center; padding: 0px 0px 50px 0px">Please <a style="color:red; font-weight: 700" href="{% url 'user_login' %}">Login</a> or <a style="color:red; font-weight: 700" href="{% url 'user_signup' %}">Register</a> to view report profile</h5>
+{% endif %}
+
+        </div>
+    </div>
+        </div>
+    </div>        </div>
+    </div>
+
+
+
+
+
+
+
+<div class="container" style="padding: 60px 0px;">
+  <h3 style="text-align: center;">Comments</h4>
+    <div class="row">
+        {% if comments%}
+        {% for comment in comments %}
+      <div class="col-lg-4 col-md-12">
+        <li class="box_result row">
+            <div class="avatar_comment col-md-1">
+                <img src="https://static.xx.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg" alt="avatar"/>
+            </div>
+            <div class="result_comment col-md-11" style="padding-left: 32px;">
+                <h4>{{ comment.user.username }}</h4>
+                <p>{{ comment.message }}</p>
+                <div class="tools_comment">
+                    <span>{{ comment.date }}</span>
+                </div>
+                <ul class="child_replay"></ul>
+            </div>
+        </li>
+      </div>
+      {% endfor %}
+      {% else %}
+      <h5 style="text-align: center;">No comments yet...</h3>
+      {% endif %}
+    </div>
+  </div>
+
+
+
+ {% if job_map %}
+      <div class="job-map container">
+        {{ job_map|safe }}
+      </div>
+ {% else %}
+                    <p style="text-align: center;">Location not available.</p>
+                {% endif %}
+
+
+
+<br><br>
+
+
+<style>
+    .pull-right{
+  float:right;
+}
+.pull-left{
+  float:left;
+}
+#fbcomment{
+  background:#fff;
+  border: 1px solid #dddfe2;
+  border-radius: 3px;
+  color: #4b4f56;
+  padding:50px;
+}
+.header_comment{
+    font-size: 14px;
+    overflow: hidden;
+    border-bottom: 1px solid #e9ebee;
+    line-height: 25px;
+    margin-bottom: 24px;
+    padding: 10px 0;
+}
+.sort_title{
+  color: #4b4f56;
+}
+.sort_by{
+  background-color: #f5f6f7;
+  color: #4b4f56;
+  line-height: 22px;
+  cursor: pointer;
+  vertical-align: top;
+  font-size: 12px;
+  font-weight: bold;
+  vertical-align: middle;
+  padding: 4px;
+  justify-content: center;
+  border-radius: 2px;
+  border: 1px solid #ccd0d5;
+}
+.count_comment{
+  font-weight: 600;
+}
+.body_comment{
+    padding: 0 8px;
+    font-size: 14px;
+    display: block;
+    line-height: 25px;
+    word-break: break-word;
+}
+.avatar_comment{
+  display: block;
+}
+.avatar_comment img{
+  height: 48px;
+  width: 48px;
+}
+.box_comment{
+	display: block;
+    position: relative;
+    line-height: 1.358;
+    word-break: break-word;
+    border: 1px solid #d3d6db;
+    word-wrap: break-word;
+    background: #fff;
+    box-sizing: border-box;
+    cursor: text;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+	padding: 0;
+}
+.box_comment textarea{
+	min-height: 40px;
+	padding: 12px 8px;
+	width: 100%;
+	border: none;
+	resize: none;
+}
+.box_comment textarea:focus{
+  outline: none !important;
+}
+.box_comment .box_post{
+	border-top: 1px solid #d3d6db;
+    background: #f5f6f7;
+    padding: 8px;
+    display: block;
+    overflow: hidden;
+}
+.box_comment label{
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 11px;
+  color: #90949c;
+  line-height: 22px;
+}
+.box_comment button{
+  margin-left:8px;
+  background-color: #4267b2;
+  border: 1px solid #4267b2;
+  color: #fff;
+  text-decoration: none;
+  line-height: 22px;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  position: relative;
+  text-align: center;
+}
+.box_comment button:hover{
+  background-color: #29487d;
+  border-color: #29487d;
+}
+.box_comment .cancel{
+	margin-left:8px;
+	background-color: #f5f6f7;
+	color: #4b4f56;
+	text-decoration: none;
+	line-height: 22px;
+	border-radius: 2px;
+	font-size: 14px;
+	font-weight: bold;
+	position: relative;
+	text-align: center;
+  border-color: #ccd0d5;
+}
+.box_comment .cancel:hover{
+	background-color: #d0d0d0;
+	border-color: #ccd0d5;
+}
+.box_comment img{
+  height:16px;
+  width:16px;
+}
+.box_result{
+  margin-top: 24px;
+}
+.box_result .result_comment h4{
+  font-weight: 600;
+  white-space: nowrap;
+  color: #365899;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.358;
+  margin:0;
+}
+.box_result .result_comment{
+  display:block;
+  overflow:hidden;
+  padding: 0;
+}
+.child_replay{
+	border-left: 1px dotted #d3d6db;
+	margin-top: 12px;
+	list-style: none;
+	padding:0 0 0 8px
+}
+.reply_comment{
+	margin:12px 0;
+}
+.box_result .result_comment p{
+  margin: 4px 0;
+  text-align:justify;
+}
+.box_result .result_comment .tools_comment{
+  font-size: 12px;
+  line-height: 1.358;
+}
+.box_result .result_comment .tools_comment a{
+  color: #4267b2;
+  cursor: pointer;
+  text-decoration: none;
+}
+.box_result .result_comment .tools_comment span{
+  color: #90949c;
+}
+.body_comment .show_more, .body_comment .show_less{
+  background: #3578e5;
+  border: none;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 14px;
+  margin-top: 24px;
+  padding: 12px;
+  text-shadow: none;
+  width: 100%;
+  font-weight:bold;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 2px;
+}
+</style>
+
+    {% endblock %}

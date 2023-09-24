@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<br><br><br><br>
+<div class="container" id="mm">
+    <h2>Add Category</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn " type="submit">Add Category</button>
+    </form>
+</div><br><br><br>
+
+
+<style>
+    @media screen and (min-width: 1200px) {
+       
+        #mm {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+    
+      
+    }
+</style>
+
+{% endblock %}

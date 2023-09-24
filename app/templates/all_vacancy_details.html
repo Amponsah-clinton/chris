@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+        
+<style>
+    #background-div {
+        background-image: url('/static/img/about.jpg');
+    }
+    </style>
+            
+        <div class="slider-area ">
+            <div class="single-slider section-overly slider-height2 d-flex align-items-center" id="background-div" data-background="static/img/hero/about.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap text-center">
+                                <h2>{{post.title}} Details</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        
+  
+
+        <div class="job-post-company pt-120 pb-120">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <!-- Left Content -->
+                    <div class="col-xl-7 col-lg-8">
+                        <!-- job single -->
+                        <div class="single-job-items mb-50">
+                            <div class="job-items">
+                                     <div class="company-img">
+                                <img style="height: 70px; width: 69px" src="{% static 'img/man.png' %}">
+                                </div>
+                                <div class="job-tittle">
+                                    <a href="job_details.html"><h4>{{post.title}}</h4></a>
+                                    <ul>
+                                        <li><i class="fa fa-clock"></i>{{post.deadline}} </li>
+                                        <li><i class="fa fa-map-marker"></i>{{post.location}}</li>
+                                        <li><i class="fa fa-crosshairs"></i>{{post.regions}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                          <!-- job single End -->
+                       
+                        <div class="job-post-details">
+                            <div class="post-details1 mb-50">
+                                <!-- Small Section Tittle -->
+                                <div class="small-section-tittle">
+                                    <h4>Job Description</h4>
+                                </div>
+                                <p>{{post.description}}</p>
+                            </div>
+                            <div class="post-details2  mb-50">
+                                 <!-- Small Section Tittle -->
+                                <div class="small-section-tittle">
+                                    <h4>Required Knowledge, Skills, and Abilities</h4>
+                                </div>
+                               <ul>
+                                   <li>{{post.skills}}</li>
+                               </ul>
+                            </div>
+                            <div class="post-details2  mb-50">
+                                 <!-- Small Section Tittle -->
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Right Content -->
+                    <div class="col-xl-4 col-lg-4">
+                        <div class="post-details3  mb-50">
+                            <!-- Small Section Tittle -->
+                           <div class="small-section-tittle">
+                               <h4>Job Overview</h4>
+                           </div>
+                          <ul>
+                              <li>Deadline : <span>{{post.deadline}}</span></li>
+                              <li>Location : <span>{{post.location}}</span></li>
+                              <li>Age : <span>{{post.age}}</span></li>
+                              <li>Salary: <span>{% if vacancy.salary %}{{ vacancy.salary }}{% else %}N/A{% endif %}</span></li>
+                              <li>Sex: <span>{% if vacancy.sex %}{{ vacancy.sex }}{% else %}N/A{% endif %}</span></li>
+                        
+                          </ul>
+                       </div>
+
+                       {% if user.is_authenticated %}
+                        <div class="post-details4  mb-50">
+                            <!-- Small Section Tittle -->
+                            <div class="small-section-tittle">
+                                <h4>Profile Information</h4>
+                            </div>
+                            <ul>
+                                <li>Name: <span>{{ post.company_name }}</span></li>
+                                <li>Email : <span>{{ post.email }}</span></li>
+                                <li>Phone: <span>{{ post.telephone }}</span></li>
+                            </ul>
+                        </div>
+                        {% else %}
+                       <h5>Please <a style="color:red; font-weight: 700" href="{% url 'user_login' %}">Login</a> or <a style="color:red; font-weight: 700" href="{% url 'user_signup' %}">Register</a> to view contact information</h5>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- job post company End -->
+
+    </main>
+    
+
+{% if user.is_authenticated%}
+<div class="container" id="mm">
+    <h3 style="text-align: center;">Apply to this post</h3>
+<!-- Report Profile Form -->
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary" name="report_form">Submit Report</button>
+</form>
+</div>
+{% else %}
+<p style="text-align: center;">
+    <a style="color:red; font-weight: 700" href="{% url 'user_login' %}">Login</a> or <a style="color:red; font-weight: 700" href="{% url 'user_signup' %}">Register</a> to apply to this post
+</p>
+{% endif %}
+
+<style>
+    @media screen and (min-width: 1200px) {
+       
+        #mm {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+    }
+</style>
+
+<br><br>
+
+
+
+
+
+
+
+
+ {% if job_map %}
+      <div class="job-map container">
+        {{ job_map|safe }}
+      </div>
+ {% else %}
+                    <p style="text-align: center;">Location not available.</p>
+                {% endif %}
+
+<br><br>
+
+    {% endblock %}

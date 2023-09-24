@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block content %}
+    <h2>Applicants for "{{ vacancy.title }}"</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Telephone</th>
+                <th>CV</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for application in applications %}
+                <tr>
+                    <td>{{ application.name }}</td>
+                    <td>{{ application.email }}</td>
+                    <td>{{ application.telephone }}</td>
+                    <td><a href="{{ application.cv.url }}" target="_blank">View CV</a></td>
+                    <td>{{ application.message }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

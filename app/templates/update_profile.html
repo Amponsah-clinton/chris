@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<br><br>
+<div class="container">
+    <h3 style="text-align:center ">Update Profile</h2><br>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{% url 'manage_profiles' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+<br><br>
+{% endblock %}
